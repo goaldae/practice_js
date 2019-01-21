@@ -8,3 +8,11 @@ var info = {
 //배열 안에 오브젝트들을 넣을 수도 있음
 
 console.log(info);
+
+//함수 만들어보기
+
+function sayHello(name, age){
+    console.log("hello!", name, " you have ", age);
+}
+
+sayHello("goaldae", 26);
