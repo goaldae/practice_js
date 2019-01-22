@@ -12,7 +12,18 @@ console.log(info);
 //함수 만들어보기
 
 function sayHello(name, age){
-    console.log("hello!", name, " you have ", age);
+    console.log("Hello!", name, " you have ", age);
 }
 
 sayHello("goaldae", 26);
+
+//string을 ``로 변수와 함께 표현하고 값을 반환해보기
+
+function sayHello2(name, age){
+    return `Hello! ${name} you have ${age}`
+}
+
+const intro = sayHello2("Nayoung", 24);
+console.log(intro);
+
+//DOM 사용해보기, object개념
