@@ -51,7 +51,10 @@ function handleColor(){
         title.classList.remove(CLICKED_CLASS); //지워라
     }
 }
-
+//위 함수를 title.classList.toggle()로 바꾸기
+/*function handleColor(){
+    title.classList.toggle(CLICKED_CLASS);
+}*/
 function init(){
     title.addEventListener("click", handleColor);//이때 handleColor()라고 하면 이벤트와 상관없이 실행됨
 }
