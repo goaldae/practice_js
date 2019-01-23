@@ -46,9 +46,9 @@ const CLICKED_CLASS = "clicked"; //추가할 클래스 이름
 function handleColor(){
     const hasClass = title.classList.contains(CLICKED_CLASS); //클래스 리스트 확인후 t/f로 반환
     if(!hasClass){ //가지고있지 않으면
-        title.classList.add = CLICKED_CLASS;//추가하고
+        title.classList.add(CLICKED_CLASS);//추가하고
     }else{//가지고있으면
-        title.classList.remove = CLICKED_CLASS; //지워라
+        title.classList.remove(CLICKED_CLASS); //지워라
     }
 }
 
