@@ -38,12 +38,33 @@ document.title = "change title"; //웹 제목 바꾸기
 //자바스크립트는 이벤트에 반응하기 위해 만들어짐
 
 console.dir(document);
-isClick = false;
-//이벤트
-function handleColor(){
-    console.log("changed title color");
-    title.style.color = "blue"; //파란색으로 바꾸기
 
+/////////////이벤트/////////////
+const BASE_COLOR = "white";
+const OTHER_COLOR = "blue";
+
+function handleColor(){
+   const currentColor = title.style.color;
+   if(currentColor === BASE_COLOR){
+       title.style.color = OTHER_COLOR;
+   } else {
+       title.style.color = BASE_COLOR;
+   }
 }
 
-title.addEventListener("click", handleColor);//이때 handleColor()라고 하면 이벤트와 상관없이 실행됨
+function init(){
+    title.style.color = BASE_COLOR;
+    title.addEventListener("click", handleColor);//이때 handleColor()라고 하면 이벤트와 상관없이 실행됨
+}
+init();
+
+
+//const age = prompt("how old are you?"); //prompt는 쓰지 않음. 조건문 배우기 위해 사용해보기
+/*
+if(age > 18){ //조건문의 형태
+    console.log("you can drink");
+} else {
+    console.log("you can't");
+}*/
+
+//이벤트들이 궁금할때는 MDN 검색하기
