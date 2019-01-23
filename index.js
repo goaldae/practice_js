@@ -29,7 +29,7 @@ console.log(intro);
 //DOM 사용해보기, object개념
 const title = document.getElementById("title"); // document라는 객체로 html의 id 접근
 title.innerHTML = "Hi! from JS!";  // 문자열 수정
-title.style.color = "red";  //색깔 바꾸기
+//title.style.color = "red";  //색깔 바꾸기
 
 document.title = "change title"; //웹 제목 바꾸기
 
@@ -40,31 +40,21 @@ document.title = "change title"; //웹 제목 바꾸기
 console.dir(document);
 
 /////////////이벤트/////////////
-const BASE_COLOR = "white";
-const OTHER_COLOR = "blue";
+
+const CLICKED_CLASS = "clicked"; //추가할 클래스 이름
 
 function handleColor(){
-   const currentColor = title.style.color;
-   if(currentColor === BASE_COLOR){
-       title.style.color = OTHER_COLOR;
-   } else {
-       title.style.color = BASE_COLOR;
-   }
+    const hasClass = title.classList.contains(CLICKED_CLASS); //클래스 리스트 확인후 t/f로 반환
+    if(!hasClass){ //가지고있지 않으면
+        title.classList.add = CLICKED_CLASS;//추가하고
+    }else{//가지고있으면
+        title.classList.remove = CLICKED_CLASS; //지워라
+    }
 }
 
 function init(){
-    title.style.color = BASE_COLOR;
     title.addEventListener("click", handleColor);//이때 handleColor()라고 하면 이벤트와 상관없이 실행됨
 }
 init();
-
-
-//const age = prompt("how old are you?"); //prompt는 쓰지 않음. 조건문 배우기 위해 사용해보기
-/*
-if(age > 18){ //조건문의 형태
-    console.log("you can drink");
-} else {
-    console.log("you can't");
-}*/
 
 //이벤트들이 궁금할때는 MDN 검색하기

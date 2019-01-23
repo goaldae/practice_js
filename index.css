@@ -1,3 +1,15 @@
 body{
     background-color : skyblue;
 }
+
+.btn{
+    cursor: pointer;
+}
+
+h1{
+    color: brown;
+}
+
+.clicked{
+    color: yellow;
+}
