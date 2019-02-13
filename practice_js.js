@@ -50,3 +50,63 @@ log(iter.next());
 log(iter.next());
 log(iter.next());
 
+//짝수를 생성하는 제너레이터
+const log = console.log;
+
+function *infinity(i=0){ //0부터 무한히 숫자를 생성하는 제너레이터
+  while(true) {
+    yield i++;
+  }
+}
+
+function *limit(l, iter){ //어떤 이터러블이 주어졌을때 주어진 수만큼 생성하는 제너레이터
+  for(const i of iter){
+    yield i;
+    if(i==l) return;
+  }
+}
+
+function *odds(l){ //홀수로 걸러서 생성하는 제너레이터
+  for(const a of limit(l, infinity(0))){
+    if(a%2) yield a;
+  }
+}
+
+let odd = odds(10);
+for(const a of odd) log(a);
+
+//...전개 연산자 활용하기
+const [a, ...b] = odds(10);
+log(a);
+log(b);
+
+//map
+const products = [ //상품정보를 담는 객체들을 담는 배열
+  {name:"shoes", price:1000},
+  {name:"bottle", price:23},
+  {name:"pants", price:44},
+  {name:"shocks", price:55},
+]
+
+let prices = []; 
+for(const a of products){
+  prices.push(a.price); //상품정보중 가격만 따로 배열에 담음
+}
+
+let names = [];
+for(const a of products){
+  names.push(a.name);  //상품정보중 이름만 따로 배열에 담음
+}
+
+let map = (f, iter) => { //이러한 역할을 하는 map 함수 super awesome
+  //f는 함수를 인자로 받음, iter는 이터레이터를 받음
+  let res = [];
+  for(const a of iter){ 
+    res.push(f(a));//이터레이터의 모든 요소를 함수에 넣고 반환값을 res에 넣음
+  }
+  return res; //다 넣었으면 res반환
+}
+
+log(prices);
+log(names);
+log(map(a => a.name, products)); //익명함수를 전달 인자에 name만 반환하는 것으로 정의함
