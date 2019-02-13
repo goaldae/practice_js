@@ -22,3 +22,31 @@ const iterable = { //이터러블 선언
   
   for(const b of iterable) log(b);
   
+  //전개 연산자
+const log = console.log; 
+const a = [1,2,3];
+const b = [2,5,9];
+log(...a, ...b);
+
+// ... 연산자도 결국 for of와 같이 이터레이터를 이용해 전개하는 용법임
+// 아래와 같이 해보면 알 수 있음
+const iter = a[Symbol.iterator]();
+iter.next();
+log(...iter, ...b) // 2부터 출력됨
+
+//이터레이터이자 이터러블을 생성하는 함수 제너레이터
+//제너레이터는 자체로 이터레이터이자 well-formed 이터레이터임
+function *gen(){
+  yield 1;
+  yield 2;
+  yield 3; //이터레이터로 순회할 요소들
+  return 100; //끝나면 value값으로 전달함
+}
+
+const iter = gen();
+log(iter.next());
+log(iter.next());
+log(iter.next());
+log(iter.next());
+log(iter.next());
+
