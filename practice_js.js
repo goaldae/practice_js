@@ -110,3 +110,13 @@ let map = (f, iter) => { //이러한 역할을 하는 map 함수 super awesome
 log(prices);
 log(names);
 log(map(a => a.name, products)); //익명함수를 전달 인자에 name만 반환하는 것으로 정의함
+//제너레이터와 사용 가능함
+
+function *gen1(){
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+}
+
+log(map(a => a*a, gen1()));
