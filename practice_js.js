@@ -83,9 +83,9 @@ log(b);
 //map
 const products = [ //상품정보를 담는 객체들을 담는 배열
   {name:"shoes", price:1000},
-  {name:"bottle", price:23},
-  {name:"pants", price:44},
-  {name:"shocks", price:55},
+  {name:"bottle", price:2000},
+  {name:"pants", price:2200},
+  {name:"shocks", price:3000},
 ]
 
 let prices = []; 
@@ -120,3 +120,61 @@ function *gen1(){
 }
 
 log(map(a => a*a, gen1()));
+
+//맵 구조분해 사용
+const log = console.log;
+function map2(f, iter){
+  res = [];
+  for(const a of iter){
+    res.push(f(a));
+  }
+  return res;
+}
+function *gen3(){
+  yield 5;
+  yield 6;
+  yield 7;
+}
+
+let m = new Map([['a',3],['b',6]]);
+
+log(new Map(map2(([a, b])=>[a+'b', b-8], m))); //새롭게 만들어진 맵을 새로운 맵으로 선언
+
+//filter 함수 작성해보기
+
+const products = [ //상품정보를 담는 객체들을 담는 배열
+  {name:"shoes", price:1000},
+  {name:"bottle", price:2000},
+  {name:"pants", price:2200},
+  {name:"shocks", price:3000},
+];
+//만약 그냥 무작정 만든다면
+let over2000 = []; //가격이 2000이상인 물품만 담는 배열 선언
+
+for(const a of products){
+  if(a.price >= 2000){
+    over2000.push(a);
+  }
+}
+
+log(...over2000);
+
+//이는 조건에 따라 계속 만들어야함.. 예를들어 under3000과 같은
+//이터러블 프로토콜과 일급함수를 이용해 함수를 만듦
+
+const filter = (f, iter) => {
+  let n = [];
+  for(const a of iter){
+    if(f(a)) n.push(a);
+  }
+  return n;
+}
+
+log(...filter(a => a.price>=2000, products)); //조건을 익명 함수에 위임
+
+log(filter(a => a*3 > 10, function *(){ //익명함수 제너레이터 활용해서 바로 적용 가능
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 5;
+}()));
