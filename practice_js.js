@@ -23,14 +23,13 @@ const iterable = { //이터러블 선언
   for(const b of iterable) log(b);
   
   //전개 연산자
-const log = console.log; 
 const a = [1,2,3];
 const b = [2,5,9];
 log(...a, ...b);
 
 // ... 연산자도 결국 for of와 같이 이터레이터를 이용해 전개하는 용법임
 // 아래와 같이 해보면 알 수 있음
-const iter = a[Symbol.iterator]();
+//const iter = a[Symbol.iterator]();
 iter.next();
 log(...iter, ...b) // 2부터 출력됨
 
@@ -43,7 +42,7 @@ function *gen(){
   return 100; //끝나면 value값으로 전달함
 }
 
-const iter = gen();
+//const iter = gen();
 log(iter.next());
 log(iter.next());
 log(iter.next());
@@ -51,8 +50,6 @@ log(iter.next());
 log(iter.next());
 
 //짝수를 생성하는 제너레이터
-const log = console.log;
-
 function *infinity(i=0){ //0부터 무한히 숫자를 생성하는 제너레이터
   while(true) {
     yield i++;
@@ -76,9 +73,9 @@ let odd = odds(10);
 for(const a of odd) log(a);
 
 //...전개 연산자 활용하기
-const [a, ...b] = odds(10);
-log(a);
-log(b);
+const [a1, ...b1] = odds(10);
+log(a1);
+log(b1);
 
 //map
 const products = [ //상품정보를 담는 객체들을 담는 배열
@@ -122,7 +119,6 @@ function *gen1(){
 log(map(a => a*a, gen1()));
 
 //맵 구조분해 사용
-const log = console.log;
 function map2(f, iter){
   res = [];
   for(const a of iter){
@@ -141,13 +137,6 @@ let m = new Map([['a',3],['b',6]]);
 log(new Map(map2(([a, b])=>[a+'b', b-8], m))); //새롭게 만들어진 맵을 새로운 맵으로 선언
 
 //filter 함수 작성해보기
-
-const products = [ //상품정보를 담는 객체들을 담는 배열
-  {name:"shoes", price:1000},
-  {name:"bottle", price:2000},
-  {name:"pants", price:2200},
-  {name:"shocks", price:3000},
-];
 //만약 그냥 무작정 만든다면
 let over2000 = []; //가격이 2000이상인 물품만 담는 배열 선언
 
@@ -178,3 +167,39 @@ log(filter(a => a*3 > 10, function *(){ //익명함수 제너레이터 활용해
   yield 3;
   yield 5;
 }()));
+
+//값을 모두 합하는 reduce함수 만들어보기
+let arr = [1,2,3,4,5,6];
+
+const reduce = (f, acc, iter) => {
+  for(const a of iter){
+    acc = f(acc, a);
+  }
+  return acc;
+}
+const add = (a, b) => {
+  return a + b;
+};
+
+log(reduce(add, 0, arr));
+
+//만약 시작점을 주지 않고(acc = 0) 이터러블만 줘서 자동으로 하려면...
+
+const reduce2 = (f, acc, iter) => {
+  if(!iter){
+    iter = acc[Symbol.iterator]();
+    acc = iter.next().value;
+  }
+  for(const a of iter){
+    acc = f(acc, a);
+  }
+  return acc;
+}
+
+log(reduce2(add, arr)); //이러면 2번째 값으로 acc인자에 arr가 전해짐
+
+//정리//
+//filter : 조건에 맞게 set을 걸러줌
+//map : key와 value를 추출해줌
+//reduce : 원하는 조건으로 합침
+log(reduce2(add, filter(p => p >= 2000, map(p=>p.price, products))));
