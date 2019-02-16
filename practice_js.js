@@ -203,3 +203,13 @@ log(reduce2(add, arr)); //이러면 2번째 값으로 acc인자에 arr가 전해
 //map : key와 value를 추출해줌
 //reduce : 원하는 조건으로 합침
 log(reduce2(add, filter(p => p >= 2000, map(p=>p.price, products))));
+
+//함수들을 이용해 값을 축약하는 go함수 만들어보기
+const go = (...args) => reduce2((a, f)=> f(a), args);
+
+  go(
+    0,
+    a => a + 1,
+    a => a + 10,
+    log
+    );
