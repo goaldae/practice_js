@@ -233,3 +233,11 @@ const f2 = pipe2(
   a => a+100,
 );
 log(f2(0,1));
+
+//go함수를 활용해서 함수 기능 축적하기
+go(
+  products,
+  products => filter(p => p.price >= 2000, products),
+  products => map(p => p.price, products),
+  prices => reduce2(add, prices),
+  log);
