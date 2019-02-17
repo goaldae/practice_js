@@ -213,3 +213,23 @@ const go = (...args) => reduce2((a, f)=> f(a), args);
     a => a + 10,
     log
     );
+
+//pipe함수 만들기
+const pipe = (...fs) => (a) => go(a, ...fs);
+
+const f = pipe(
+  a => a+1,
+  a => a+10,
+  a => a+100,
+);
+
+log(f(0))
+
+//만약 pipe함수에 인자를 두 개 주고싶다면..
+const pipe2 = (f, ...fs) => (...a) => go(f(...a), ...fs);
+const f2 = pipe2(
+  (a,b) => a+b,
+  a => a+10,
+  a => a+100,
+);
+log(f2(0,1));
