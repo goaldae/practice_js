@@ -94,15 +94,15 @@ let names = [];
 for(const a of products){
   names.push(a.name);  //상품정보중 이름만 따로 배열에 담음
 }
-
-let map = (f, iter) => { //이러한 역할을 하는 map 함수 super awesome
+const curry = f => (a, ..._) => _.length ? f(a, ..._): (..._)=>f(a,..._);
+let map = curry((f, iter) => { //이러한 역할을 하는 map 함수 super awesome
   //f는 함수를 인자로 받음, iter는 이터레이터를 받음
   let res = [];
   for(const a of iter){ 
     res.push(f(a));//이터레이터의 모든 요소를 함수에 넣고 반환값을 res에 넣음
   }
   return res; //다 넣었으면 res반환
-}
+});
 
 log(prices);
 log(names);
@@ -151,13 +151,13 @@ log(...over2000);
 //이는 조건에 따라 계속 만들어야함.. 예를들어 under3000과 같은
 //이터러블 프로토콜과 일급함수를 이용해 함수를 만듦
 
-const filter = (f, iter) => {
+const filter = curry((f, iter) => {
   let n = [];
   for(const a of iter){
     if(f(a)) n.push(a);
   }
   return n;
-}
+});
 
 log(...filter(a => a.price>=2000, products)); //조건을 익명 함수에 위임
 
@@ -171,12 +171,13 @@ log(filter(a => a*3 > 10, function *(){ //익명함수 제너레이터 활용해
 //값을 모두 합하는 reduce함수 만들어보기
 let arr = [1,2,3,4,5,6];
 
-const reduce = (f, acc, iter) => {
+const reduce = curry((f, acc, iter) => {
   for(const a of iter){
     acc = f(acc, a);
   }
   return acc;
-}
+});
+
 const add = (a, b) => {
   return a + b;
 };
@@ -185,7 +186,7 @@ log(reduce(add, 0, arr));
 
 //만약 시작점을 주지 않고(acc = 0) 이터러블만 줘서 자동으로 하려면...
 
-const reduce2 = (f, acc, iter) => {
+const reduce2 = curry((f, acc, iter) => {
   if(!iter){
     iter = acc[Symbol.iterator]();
     acc = iter.next().value;
@@ -194,7 +195,7 @@ const reduce2 = (f, acc, iter) => {
     acc = f(acc, a);
   }
   return acc;
-}
+});
 
 log(reduce2(add, arr)); //이러면 2번째 값으로 acc인자에 arr가 전해짐
 
@@ -240,4 +241,19 @@ go(
   products => filter(p => p.price >= 2000, products),
   products => map(p => p.price, products),
   prices => reduce2(add, prices),
+  log);
+
+console.clear();
+
+//받아둔 함수에 원하는 개수만큼 인자가 들어왔을 때 나중에 평가시키는 curry함수
+//const curry = f => (a, ..._) => _.length ? f(a, ..._): (..._)=>f(a,..._);
+//간단한 curry 사용 예시
+const multi = curry((a, b) => a*b);
+log(multi(10)(3));
+
+go(
+  products,
+  products => filter(p => p.price >= 2000)(products),//두개를 한번에 받는다는 뜻
+  map(p => p.price), //위에 값을 기다려서 받겠다는 뜻
+  reduce2(add),
   log);
