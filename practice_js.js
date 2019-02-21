@@ -216,7 +216,7 @@ const go = (...args) => reduce2((a, f)=> f(a), args);
     );
 
 //pipe함수 만들기
-const pipe = (...fs) => (a) => go(a, ...fs);
+const pipe = (...fs) => a => go(a, ...fs);
 
 const f = pipe(
   a => a+1,
@@ -262,20 +262,38 @@ go(
   
 //함수 조합으로 함수 만들기
 
-  const total_price = pipe(
-    map(p => p.price),
-    reduce2(add));
+const total_price = pipe(
+  map(p => p.price),
+  reduce2(add));
 
-  const base_total_price = predi => pipe(
-    filter(predi),
-    total_price);
+const base_total_price = predi => pipe(
+  filter(predi),
+  total_price);
 
-  go(
-    products,
-    base_total_price(p => p.price < 20000),
-    log);
+go(
+  products,
+  base_total_price(p => p.price < 20000),
+  log);
 
-  go(
-    products,
-    base_total_price(p => p.price >= 20000),
-    log);
+go(
+  products,
+  base_total_price(p => p.price >= 20000),
+  log);
+
+    //curry함수 연습해보기
+
+function curry_ptc(f) {
+  return function(a, ..._) {
+    if(_.length){
+      return f(a, ..._);
+    }else{
+      return function(..._){
+        return f(a, ..._);
+      }
+    }
+  }
+}
+
+const sum2 = curry_ptc((a, b) => a+b);
+
+log(sum2(5,6));
