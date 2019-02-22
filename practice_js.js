@@ -275,12 +275,7 @@ go(
   base_total_price(p => p.price < 20000),
   log);
 
-go(
-  products,
-  base_total_price(p => p.price >= 20000),
-  log);
-
-    //curry함수 연습해보기
+//curry함수 연습해보기
 
 function curry_ptc(f) {
   return function(a, ..._) {
@@ -297,3 +292,14 @@ function curry_ptc(f) {
 const sum2 = curry_ptc((a, b) => a+b);
 
 log(sum2(5,6));
+
+const sum = curry((f, iter) => go(
+  iter,
+  map(f),
+  reduce2(add)));
+
+const total_quantity2 = sum(p => p.quantity);
+
+const total_price2 = sum(p => p.price * p.quantity);
+
+log(total_price2, total_quantity2);
