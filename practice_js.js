@@ -79,10 +79,10 @@ log(b1);
 
 //map
 const products = [ //상품정보를 담는 객체들을 담는 배열
-  {name:"shoes", price:1000},
-  {name:"bottle", price:2000},
-  {name:"pants", price:2200},
-  {name:"shocks", price:3000},
+  {name:"shoes", price:1000, quantity:5},
+  {name:"bottle", price:2000, quantity:2},
+  {name:"pants", price:2200, quantity:3},
+  {name:"shocks", price:3000, quantity:8},
 ]
 
 let prices = []; 
@@ -302,4 +302,21 @@ const total_quantity2 = sum(p => p.quantity);
 
 const total_price2 = sum(p => p.price * p.quantity);
 
-log(total_price2, total_quantity2);
+log(total_price2(products), total_quantity2(products));
+
+//다시 만들어보기
+
+const sum2 = (f, iter) =>{
+  
+} 
+
+const total_quantity = pipe(
+  map(p => p.quantity),
+  reduce2(add));
+
+const total_price3 = pipe(
+  map(p => p.quantity * p.price),
+  reduce2(add));
+
+log(total_quantity(products));
+log(total_price3(products));
