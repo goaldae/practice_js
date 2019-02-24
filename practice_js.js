@@ -306,17 +306,43 @@ log(total_price2(products), total_quantity2(products));
 
 //다시 만들어보기
 
-const sum2 = (f, iter) =>{
-  
-} 
+const sum3 = curry((f, iter) => go(
+  iter,
+  map(f),
+  reduce2(add)));
 
-const total_quantity = pipe(
-  map(p => p.quantity),
-  reduce2(add));
+const total_quantity = sum3(p => p.quantity);
 
-const total_price3 = pipe(
-  map(p => p.quantity * p.price),
-  reduce2(add));
+const total_price3 = sum3(p => p.quantity * p.price);
 
 log(total_quantity(products));
+
 log(total_price3(products));
+
+document.querySelector("#cart").innerHTML = `
+  <table>
+    <tr>
+      <th>상품이름</th>
+      <th>가격</th>
+      <th>수량</th>
+      <th>총가격</th>
+    </tr>
+    ${go(products,
+      sum3(p => `
+      <tr>
+        <td>${p.name}</td>
+        <td>${p.price}</td>
+        <td>${p.quantity}</td>
+        <td>${p.price*p.quantity}</td>
+      </tr>
+      `) //그냥 이렇게만 하면 ,,,,이 출력됨 왜냐하면 배열을 출력하기 떄문
+      //따라서 배열을 합치는 작업이 필요함
+      //map, reduce 조합을 sum3 함수로 바꿈
+      )}
+    <tr>
+      <td colspan = "2">합계</td>
+      <td>${total_quantity(products)}</td>
+      <td>${total_price3(products)}</td>
+    </tr> 
+  </table>
+`;
