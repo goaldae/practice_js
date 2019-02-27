@@ -63,3 +63,23 @@ go(
 );
 console.timeEnd('');
 
+//L.map, L.filter 함수
+L.map = curry(function *(f, iter) {
+    for(const a of iter) yield f(a);
+});
+
+L.filter = curry(function *(f, iter) {
+    for(const a of iter) if(f(a)) yield a;
+});
+
+log(L.filter(p => p.price < 2000, products).next().value);
+
+go(
+    L.range(10),
+    L.map(a=>a+10),
+    L.filter(a=>a%2),
+    take(2),
+    log
+);
+
+log(L);
