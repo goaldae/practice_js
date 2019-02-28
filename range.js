@@ -82,4 +82,23 @@ go(
     log
 );
 
-log(L);
+const join = curry((sep = ',', iter) => { //iterable을 이용한 join function
+    reduce2((a,b) => `${a}${sep}${b}`);
+});
+
+log({limit : 10, offset : 10, type : "notice"})
+
+L.entries = function *(obj) {
+    for(const k in obj){ //주의!!! obj를 돌때 of가 아니라 in임!!!!!
+        yield [k, obj[k]];
+    }
+};
+
+const queryStr = pipe(
+    L.entries,
+    L.map(([k, v])=> `${k}=${v}`),
+    join('+'),
+    log
+);
+
+queryStr({limit : 10, offset : 10, type : "notice"});
