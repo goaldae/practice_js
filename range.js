@@ -102,3 +102,22 @@ const queryStr = pipe(
 );
 
 queryStr({limit : 10, offset : 10, type : "notice"});
+
+const users = [
+    {age : 34},
+    {age : 26},
+    {age : 28},
+    {age : 40},
+    {age : 18},
+    {age : 21},
+    {age : 30},
+    {age : 29},
+];
+
+const find = curry((f, iter) => go(
+    iter,
+    filter(f),
+    take(1),
+    ([a]) => a));
+
+log(find(u => u.age <= 30)( users));
