@@ -121,3 +121,5 @@ const find = curry((f, iter) => go(
     ([a]) => a));
 
 log(find(u => u.age <= 30)( users));
+
+log(map(a=>a>=20, users));

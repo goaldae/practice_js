@@ -1,6 +1,9 @@
+document.write('<script type="text/javascript" src="range.js"></script>');
+
 //이터러블을 이터레이터 프로토콜을 활용해 데이터 순회하기
 const log = console.log; 
-
+const go = (...args) => reduce2((a, f)=> f(a), args);
+const pipe = (...fs) => a => go(a, ...fs);
 const iterable = { //이터러블 선언
     [Symbol.iterator]() { //사용자 정의 이터레이터
       let i = 3;
@@ -95,14 +98,11 @@ for(const a of products){
   names.push(a.name);  //상품정보중 이름만 따로 배열에 담음
 }
 const curry = f => (a, ..._) => _.length ? f(a, ..._): (..._)=>f(a,..._);
-let map = curry((f, iter) => { //이러한 역할을 하는 map 함수 super awesome
-  //f는 함수를 인자로 받음, iter는 이터레이터를 받음
-  let res = [];
-  for(const a of iter){ 
-    res.push(f(a));//이터레이터의 모든 요소를 함수에 넣고 반환값을 res에 넣음
-  }
-  return res; //다 넣었으면 res반환
-});
+
+let map = curry(pipe(
+  L.map,
+  take(infinity)
+));
 
 log(prices);
 log(names);
@@ -151,13 +151,10 @@ log(...over2000);
 //이는 조건에 따라 계속 만들어야함.. 예를들어 under3000과 같은
 //이터러블 프로토콜과 일급함수를 이용해 함수를 만듦
 
-const filter = curry((f, iter) => {
-  let n = [];
-  for(const a of iter){
-    if(f(a)) n.push(a);
-  }
-  return n;
-});
+const filter = curry(pipe(
+  L.filter,
+  take(infinity)
+));
 
 log(...filter(a => a.price>=2000, products)); //조건을 익명 함수에 위임
 
@@ -206,7 +203,7 @@ log(reduce2(add, arr)); //이러면 2번째 값으로 acc인자에 arr가 전해
 log(reduce2(add, filter(p => p >= 2000, map(p=>p.price, products))));
 
 //함수들을 이용해 값을 축약하는 go함수 만들어보기
-const go = (...args) => reduce2((a, f)=> f(a), args);
+
 
   go(
     0,
@@ -216,7 +213,7 @@ const go = (...args) => reduce2((a, f)=> f(a), args);
     );
 
 //pipe함수 만들기
-const pipe = (...fs) => a => go(a, ...fs);
+
 
 const f = pipe(
   a => a+1,
