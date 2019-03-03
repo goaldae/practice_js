@@ -1,5 +1,3 @@
-document.write('<script type="text/javascript" src="practice_js.js"></script>');
-
 const range = l => {
     var res = [];
     var i = -1;
@@ -122,4 +120,31 @@ const find = curry((f, iter) => go(
 
 log(find(u => u.age <= 30)( users));
 
-log(map(a=>a>=20, users));
+log(filter(a => a.age >= 20, users));
+
+const tarr = 1;
+//tarr[Symbol.iterator]() 뒤에 ()는 함수 호출 : 함수가 존재함을 전재로 함
+//tarr[Symbol.iterator]은 함수 자체를 확인할 수 있음
+
+//tarr[Symbol.iterator]() 따라서 이것은 존재하지 않는 함수를 호출해서 오류
+//tarr[Symbol.iterator] 하지만 이것은 함수가 존재하는지 확인할 수 있음
+
+const isIterable = a => a && a[Symbol.iterator];
+
+const narr = [[1,2],3,[4,5,6],7];
+
+L.flatten = function *(iter){
+    for(const a of iter){
+        if(isIterable(a)) for(const b of a) yield b;
+        else yield a;
+    }
+};
+
+const flatten = pipe(
+    L.flatten,
+    take(infinity));
+
+log(L.flatten(narr).next().value);
+log(flatten(narr));
+
+

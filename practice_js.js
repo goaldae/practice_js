@@ -99,10 +99,13 @@ for(const a of products){
 }
 const curry = f => (a, ..._) => _.length ? f(a, ..._): (..._)=>f(a,..._);
 
-let map = curry(pipe(
-  L.map,
-  take(infinity)
-));
+let map = curry((f, iter) => {
+  let res = [];
+  for(const a of iter){
+    res.push(f(a));
+  }
+  return res;
+});
 
 log(prices);
 log(names);
@@ -151,10 +154,13 @@ log(...over2000);
 //이는 조건에 따라 계속 만들어야함.. 예를들어 under3000과 같은
 //이터러블 프로토콜과 일급함수를 이용해 함수를 만듦
 
-const filter = curry(pipe(
-  L.filter,
-  take(infinity)
-));
+const filter = curry((f, iter) => {
+  let res = [];
+  for(const a of iter){
+    if(f(a)) res.push(a);
+  }
+  return res;
+});
 
 log(...filter(a => a.price>=2000, products)); //조건을 익명 함수에 위임
 
