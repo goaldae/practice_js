@@ -147,4 +147,19 @@ const flatten = pipe(
 log(L.flatten(narr).next().value);
 log(flatten(narr));
 
+L.flatten2 = function *(iter) { //yield *iterable은 for (const val of iterable) yield val; 과 같음
+    for (const a of iter) {
+        if (isIterable(a)) yield *a;
+        else yield a;
+    }
+};
 
+L.deepFlat = function *f(iter) { //만일 깊은 Iterable을 모두 펼치고 싶다면 아래와 같이 L.deepFlat을 구현하여 사용할 수 있음
+    for (const a of iter) {
+        if (isIterable(a)) yield *f(a);
+        else yield a;
+    }
+};
+
+log([...L.deepFlat([1, [2, [3, 4], [[5]]]])]);
+// [1, 2, 3, 4, 5];
