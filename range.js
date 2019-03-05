@@ -167,8 +167,17 @@ log([...L.deepFlat([1, [2, [3, 4], [[5]]]])]);
 // [1, 2, 3, 4, 5];
 
 //flatMap : flatten과 map을 동시에 하는 함수
-log([[1,2,3],[4,5],[6]].flatMap(a=>a.map(a=>a*a)));
+log([[1,2,3],[4,5],[6]].flatMap(a=>a.map(a=>a*a))); //내장되어있는 flatMap 방식
 
-L.flatMap = pipe(L.map, L.flatten);
-var it4 = L.flatMap(map(a=>a*a), [[1,2,3],[4,5],[6]]);
-log(go(it4,takeAll));
+log(flatten([[1,2,3],[4,5],[6]].map(a=>a.map(a=>a*a)))); //내장 + 내가 만든 flatten
+
+L.flatMap = pipe(L.flatten, L.map(a=>a*a)); //내가 생각한 방식
+//먼저 flatten을 하고 L.map을 함
+var it = L.flatMap([[1,2,3],[4,5],[6]]); 
+log([...it]);
+
+L.flatMap = curry(pipe2(L.map, L.flatten)); //제시해준 방식
+var it1 = L.flatMap(map(a=>a*a));
+var it2 = L.flatMap(a=>a, [[1,2,3],[4,5],[6]]);
+log([...it1]);
+log([...it2]);
