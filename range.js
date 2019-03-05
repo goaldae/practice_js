@@ -99,6 +99,8 @@ const queryStr = pipe(
     log
 );
 
+const takeAll = take(infinity);
+
 queryStr({limit : 10, offset : 10, type : "notice"});
 
 const users = [
@@ -163,3 +165,10 @@ L.deepFlat = function *f(iter) { //만일 깊은 Iterable을 모두 펼치고 �
 
 log([...L.deepFlat([1, [2, [3, 4], [[5]]]])]);
 // [1, 2, 3, 4, 5];
+
+//flatMap : flatten과 map을 동시에 하는 함수
+log([[1,2,3],[4,5],[6]].flatMap(a=>a.map(a=>a*a)));
+
+L.flatMap = pipe(L.map, L.flatten);
+var it4 = L.flatMap(map(a=>a*a), [[1,2,3],[4,5],[6]]);
+log(go(it4,takeAll));
