@@ -177,7 +177,28 @@ var it = L.flatMap([[1,2,3],[4,5],[6]]);
 log([...it]);
 
 L.flatMap = curry(pipe2(L.map, L.flatten)); //제시해준 방식
-var it1 = L.flatMap(map(a=>a*a));
+//var it1 = L.flatMap(map(a=>a*a));
 var it2 = L.flatMap(a=>a, [[1,2,3],[4,5],[6]]);
-log([...it1]);
+//log([...it1]);
 log([...it2]);
+
+//2차원 배열 다루기
+const arr4 = [
+    [1, 2, 3],
+    [4, 5],
+    [6,7,8],
+    [9]
+];
+
+go( //모든 값을 순회하는 비효율적인 방식
+    arr4,
+    flatten,
+    map(a=>a*a),
+    log);
+
+go( //이터러블 프로토콜을 따르는 비동기적방식
+    arr4,
+    L.flatten,
+    L.map(a=>a*a),
+    takeAll,
+    log);
