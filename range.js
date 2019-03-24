@@ -206,7 +206,7 @@ go( //이터러블 프로토콜을 따르는 비동기적방식
 
 //실무에서 활용할법하게 바꾼 코드
 
-var users = [
+const users3 = [
     { name: 'a', age: 21, family: [
         { name: 'a1', age: 53 }, { name: 'a2', age: 47 },
         { name: 'a3', age: 16 }, { name: 'a4', age: 15 }
@@ -224,10 +224,22 @@ var users = [
         ] }
     ];
 
-go(users,
+go( users3,
     L.flatMap(u => u.family),
-    L.filter(u => u.age > 20),
+    L.filter(u => u.age >= 20),
     L.map(u => u.age),
-    take(4),
-    reduce(add),
+    take(3),
     log);
+
+function add10(n, callback){
+    setTimeout(()=>callback(n+10), 1000);
+}
+
+add10(10, log);
+
+function add20(n){
+    return new Promise(resolve => setTimeout(()=>resolve(n+20), 100));
+}
+
+add20(23)
+    .then(log);     
