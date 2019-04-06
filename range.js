@@ -242,4 +242,14 @@ function add20(n){
 }
 
 add20(23)
-    .then(log);     
+    .then(log);
+
+const delay100 = a => new Promise(resolve => 
+    setTimeout(() => resolve(a), 100));
+    //100ms 후에 값을 만들어내는 상수
+
+const go1 = (a, f) => a instanceof Promise ? a.then(f) : f(a);
+const add5 = a => a + 5;
+
+log(go1(5, add5)); //동기적 값 계산
+log(go1(go1(delay100(100), add5),log)); //일급을 이용한 비동기적 값 계산 , 값을 계속 가지고 이어서 사용할 수 있음
