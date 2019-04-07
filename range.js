@@ -253,3 +253,10 @@ const add5 = a => a + 5;
 
 log(go1(5, add5)); //동기적 값 계산
 log(go1(go1(delay100(100), add5),log)); //일급을 이용한 비동기적 값 계산 , 값을 계속 가지고 이어서 사용할 수 있음
+
+//어떤 값을 함수 합성할 때 안전하게 이어질 수 있도록 하는 것 : 모나드
+const tempf = a => a+10;
+const tempg = a => a*a;
+
+[3].map(tempf).map(tempg).forEach(a => log(a)); //배열로 값을 감싸서 만드는 경우(동기적 방식) : 값을 안줘도 괜찮음
+new Promise(resolve=>setTimeout(()=>resolve(20), 100)).then(tempf).then(tempg).then(r => log(r)); // 비동기적 방식으로 then을 이용해 함수를 순차적으로 실행하는 경우
