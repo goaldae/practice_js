@@ -259,4 +259,14 @@ const tempf = a => a+10;
 const tempg = a => a*a;
 
 [3].map(tempf).map(tempg).forEach(a => log(a)); //배열로 값을 감싸서 만드는 경우(동기적 방식) : 값을 안줘도 괜찮음
-new Promise(resolve=>setTimeout(()=>resolve(20), 100)).then(tempf).then(tempg).then(r => log(r)); // 비동기적 방식으로 then을 이용해 함수를 순차적으로 실행하는 경우
+new Promise(resolve=>setTimeout(()=>resolve(10000), 10000)).then(tempf).then(tempg).then(r => log(r)); // 비동기적 방식으로 then을 이용해 함수를 순차적으로 실행하는 경우
+
+var users2 = [
+    {id : 1, name :'aa'},
+    {id : 2, name :'bb'}
+  ]; 
+  
+  const getElementByID = id => find(u => u.id == id, users);
+  const g = ({name}) => name;
+  log(g(getElementByID(2)));
+  
